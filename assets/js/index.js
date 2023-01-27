@@ -31,8 +31,8 @@
               taskData[i] ? taskData[i].task : ''
             }" data-index="${i}"/>
           </div>
-          <div class="col-1 d-flex w-100 h-100 justify-content-center align-items-center">
-            <button id="save-button" class="btn save-button d-flex align-items-center h-100" data-index="${i}">
+          <div class="col-1 d-flex p-0 w-100 h-100">
+            <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
               <i class="fa fa-save"></i>
             </button>
           </div>
@@ -63,19 +63,32 @@
   function colorise() {
     // get current time
     // let now = moment().format('HH:mm');
-    let nowTime = '09:48:35';
+    let nowTime = '11:48:35';
     let now = moment(nowTime, 'HH:mm:ss').hour();
 
     let row = $('.row');
     row.each(function () {
       // convert block time string to a moment object
       let blockTime = moment($(this).find('#block-time').text(), 'HH').hour();
+
       if (blockTime < now) {
-        $(this).removeClass(['present', 'future']).addClass('past');
+        $(this)
+          .children()
+          .eq(1)
+          .removeClass(['present', 'future'])
+          .addClass('past');
       } else if (blockTime === now) {
-        $(this).removeClass(['past', 'future']).addClass('present');
+        $(this)
+          .children()
+          .eq(1)
+          .removeClass(['past', 'future'])
+          .addClass('present');
       } else {
-        $(this).removeClass(['past', 'present']).addClass('future');
+        $(this)
+          .children()
+          .eq(1)
+          .removeClass(['past', 'present'])
+          .addClass('future');
       }
     });
     setInterval(colorise, 60000);
