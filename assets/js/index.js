@@ -42,7 +42,7 @@
   }
 
   // event listener for save
-  $('#blocks-row').on('click', '#save-button', function () {
+  $('.container').on('click', '#save-button', function () {
     let i = $(this).data('index');
     let task = $(`input[data-index=${i}]`).val();
     console.log(task);
