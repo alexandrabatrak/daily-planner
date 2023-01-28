@@ -1,22 +1,30 @@
 (function ($) {
-  // header time
+  // header date
   $('#currentDay').text(moment().format('LL'));
+  //* time - do I want it?
   // let updateTime = () => {
   //   $('#currentTime').text(moment().format('HH:mm'));
   //   setInterval(updateTime, 60000);
   // };
   // setTimeout(updateTime, 0);
 
-  // populate time blocks with save buttons
+  //
   let blocks = [];
   let hours = {
-    start: 9,
-    end: 17,
+    start: 8,
+    end: 20,
   };
   // hourly
   for (let i = hours.start; i <= hours.end; i++) {
     blocks.push(moment().hour(i).format('h A'));
   }
+  // 30 min
+  // *doesn't work as intended. If using this would need to update the colorise() as well
+  // for (let i = hours.start; i <= hours.end; i += 0.5) {
+  //   blocks.push(moment().hour(i).startOf('hour').format('h:mm A'));
+  // }
+
+  console.log(blocks);
 
   let taskData = JSON.parse(localStorage.getItem('taskData')) || [];
   let today = moment().format('LL');
@@ -43,34 +51,41 @@
     // event listener for save
     // moved in to see if it will work instead of creating listener separately
     // *event delegation*
-    $('#container').on('click', '#save-button', function () {
-      let i = $(this).data('index');
-      let task = $(`input[data-index=${i}]`).val();
-      let date = moment().format('LL');
+    $('#container').on('click', '#save-button', saveTask);
+  }
 
-      if (!taskData[i]) {
-        taskData[i] = {
-          blockTime: blocks[i],
-          task: task,
-          date: date,
-        };
-      } else {
-        taskData[i].blockTime = blocks[i];
-        taskData[i].task = task;
-        taskData[i].date = date;
-      }
-      localStorage.setItem('taskData', JSON.stringify(taskData));
-      $(this).children('i').removeClass('fa-plus').addClass('fa-check saved');
-      setTimeout(() => {
-        $(this).children('i').removeClass('fa-check saved').addClass('fa-plus');
-      }, 1000);
-    });
+  function saveTask() {
+    // animate icon
+    $(this).children('i').removeClass('fa-plus').addClass('fa-check saved');
+    let i = $(this).data('index');
+    let task = $(`input[data-index=${i}]`).val();
+    let date = moment().format('LL');
+
+    if (!taskData[i]) {
+      taskData[i] = {
+        blockTime: blocks[i],
+        task: task,
+        date: date,
+      };
+    } else {
+      taskData[i].blockTime = blocks[i];
+      taskData[i].task = task;
+      taskData[i].date = date;
+    }
+    localStorage.setItem('taskData', JSON.stringify(taskData));
+    // return icon to default
+    setTimeout(() => {
+      $(this).children('i').removeClass('fa-check saved').addClass('fa-plus');
+    }, 1000);
   }
 
   // colorise
   function colorise() {
     // get current time
     // let nowTime = moment().format('HH:mm');
+
+    // testing testing who is who
+    // TODO: Add a button for test date - randomise it within the range - for testing outside of business hours
     let nowTime = 'January 28th 2023, 3:48:35';
     let now = moment(nowTime, 'MMMM Do YYYY, h:mm:ss a').hour();
 
