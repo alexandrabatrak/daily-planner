@@ -35,12 +35,16 @@ input {
   resize: none;
   border-left: 1px solid var(--secondary);
   padding: 10px;
-  transform: 0;
-  transition: transform 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
+}
+
+input,
+.save-button {
+  transition: all 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
 }
 
 input#daily-task:focus {
-  transform: scale(1.2);
+  transform: scale(1.02);
+  border: 2px solid;
   position: relative;
   z-index: 1;
 }
@@ -54,10 +58,10 @@ main {
 }
 
 .jumbotron h1 {
-  font-size: 7vmax;
+  font-size: 6.5vmax;
   font-weight: bold;
   text-transform: uppercase;
-  background-image: url('../images/bg.jpg');
+  /* background-image: url('../images/bg.jpg'); */
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -92,7 +96,8 @@ main {
   );
 }
 
-.past input:focus {
+.past input:focus,
+.past button:focus-visible {
   background: repeating-linear-gradient(
     45deg,
     var(--secondary),
@@ -107,13 +112,15 @@ main {
 }
 
 .present,
-.present input {
+.present input,
+.present button {
   background-color: var(--accent);
   color: var(--white);
 }
 
 .future,
-.future input {
+.future input,
+.future button {
   background-color: var(--primary);
   color: var(--black);
 }
@@ -121,21 +128,43 @@ main {
 .save-button {
   border-left: 1px solid var(--secondary);
   color: var(--white);
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
 }
 
 .save-button:focus {
   box-shadow: none;
 }
 
-.save-button i,
-.save-button:hover i {
+.save-button:focus-visible {
+  border: 2px solid var(--black);
+  transform: scale(1.05);
+  position: relative;
+  z-index: 1;
+}
+
+.save-button i {
   color: var(--white);
 }
 
 .save-button i.saved {
   font-size: 20px;
   animation: confirm 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
+}
+
+.save-button:hover,
+.save-button:focus,
+.save-button i.saved {
+  color: var(--black);
+}
+
+footer {
+  height: 150px;
+  margin-left: 9%;
+  color: var(--white);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-shadow: 1px 1px 10px var(--accent);
 }
 
 @keyframes confirm {
