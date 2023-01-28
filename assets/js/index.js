@@ -42,7 +42,7 @@
           </div>
           <div class="col-md-1 col-2 d-flex p-0 w-100 h-100">
             <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
-            <i class="fa-solid fa-plus"></i>
+              <i class="fa-solid fa-plus"></i>
             </button>
           </div>
       <div>`
@@ -54,9 +54,15 @@
     $('#container').on('click', '#save-button', saveTask);
   }
 
+  // $('#container').append(
+  //   '<button id="ultimate-save" class="btn">Save All<button>'
+  // );
+  // $('#ultimate-save').on('click', saveTask);
+
   function saveTask() {
     // animate icon
     $(this).children('i').removeClass('fa-plus').addClass('fa-check saved');
+    console.log($(this));
     let i = $(this).data('index');
     let task = $(`input[data-index=${i}]`).val();
     let date = moment().format('LL');
@@ -82,16 +88,21 @@
   // colorise
   function colorise() {
     // get current time
-    // let nowTime = moment().format('HH:mm');
+    let nowTime = moment().format('hh A');
 
     // testing testing who is who
     // TODO: Add a button for test date - randomise it within the range - for testing outside of business hours
-    let nowTime = 'January 28th 2023, 3:48:35';
-    let now = moment(nowTime, 'MMMM Do YYYY, h:mm:ss a').hour();
+    // let nowTime = 'January 28th 2023, 3:48:35';
+    // let now = moment(nowTime, 'MMMM Do YYYY, h:mm:ss a').format('hh A');
+    let now = moment().format('HH');
+    console.log(now);
 
     $('.row').each(function () {
       // convert block time string to a moment object
-      let blockTime = moment($(this).find('#block-time').text(), 'HH').hour();
+      let blockTime = moment($(this).find('#block-time').text(), 'hh A').format(
+        'HH'
+      );
+      console.log(blockTime);
       let row = $(this).children();
       if (blockTime < now) {
         row.removeClass(['present', 'future']).addClass('past');
