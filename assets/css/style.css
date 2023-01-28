@@ -35,6 +35,14 @@ input {
   resize: none;
   border-left: 1px solid var(--secondary);
   padding: 10px;
+  transform: 0;
+  transition: transform 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
+}
+
+input#daily-task:focus {
+  transform: scale(1.2);
+  position: relative;
+  z-index: 1;
 }
 
 main {
@@ -78,9 +86,19 @@ main {
   background: repeating-linear-gradient(
     45deg,
     var(--secondary),
-    var(--secondary) 1.5rem,
-    var(--primary) 1.5rem,
-    var(--primary) 2rem
+    var(--secondary) 2rem,
+    var(--primary) 2rem,
+    var(--primary) 3.5rem
+  );
+}
+
+.past input:focus {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--secondary),
+    var(--secondary) 2rem,
+    var(--primary) 2rem,
+    var(--primary) 3.5rem
   );
 }
 
@@ -123,7 +141,7 @@ main {
 @keyframes confirm {
   0%,
   100% {
-    transform: skewY(5deg) rotate(0deg);
+    transform: skewY(0deg) rotate(0deg);
   }
   50% {
     transform: skewY(15deg) rotate(-5deg);
