@@ -12,7 +12,7 @@
   let blocks = [];
   let hours = {
     start: 8,
-    end: 20,
+    end: 23,
   };
   // hourly
   for (let i = hours.start; i <= hours.end; i++) {
@@ -51,20 +51,60 @@
     // event listener for save
     // moved in to see if it will work instead of creating listener separately
     // *event delegation*
+    // $('#container').on('click', '#save-button', function () {
+    //   // animate icon
+    //   $(this).children('i').removeClass('fa-plus').addClass('fa-check saved');
+    //   let i = $(this).data('index');
+    //   let task = $(`input[data-index=${i}]`).val();
+
+    //   saveToLocal(i, task);
+    //   // return icon to default
+    //   setTimeout(() => {
+    //     $(this).children('i').removeClass('fa-check saved').addClass('fa-plus');
+    //   }, 1000);
+    // });
     $('#container').on('click', '#save-button', saveTask);
+    $('#container').on('keyup', 'input[id="daily-task"]', function (e) {
+      // on pressing enter from input, call function passing 'this' arguments
+      if (e.which === 13) {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log(e.which);
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+        saveTask.call(this);
+      }
+    });
   }
 
-  // $('#container').append(
-  //   '<button id="ultimate-save" class="btn">Save All<button>'
-  // );
-  // $('#ultimate-save').on('click', saveTask);
-
+  // event listener callback
   function saveTask() {
+    let icon = $(this).children('i');
     // animate icon
-    $(this).children('i').removeClass('fa-plus').addClass('fa-check saved');
-    console.log($(this));
+    icon.removeClass('fa-plus').addClass('fa-check saved');
     let i = $(this).data('index');
     let task = $(`input[data-index=${i}]`).val();
+
+    saveToLocal(i, task);
+    // return icon to default
+    setTimeout(() => {
+      icon.removeClass('fa-check saved').addClass('fa-plus');
+    }, 1000);
+  }
+
+  // save all button
+  $('#container').append(
+    '<button id="ultimate-save" class="btn">Save All<button>'
+  );
+  $('#container').on('click', '#ultimate-save', function () {
+    $(`input[id='daily-task']`).each(function () {
+      let i = $(this).data('index');
+      let task = $(this).val();
+      saveToLocal(i, task);
+    });
+  });
+
+  // save to Local for event listeners
+  function saveToLocal(i, task) {
     let date = moment().format('LL');
 
     if (!taskData[i]) {
@@ -79,10 +119,6 @@
       taskData[i].date = date;
     }
     localStorage.setItem('taskData', JSON.stringify(taskData));
-    // return icon to default
-    setTimeout(() => {
-      $(this).children('i').removeClass('fa-check saved').addClass('fa-plus');
-    }, 1000);
   }
 
   // colorise
@@ -95,14 +131,12 @@
     // let nowTime = 'January 28th 2023, 3:48:35';
     // let now = moment(nowTime, 'MMMM Do YYYY, h:mm:ss a').format('hh A');
     let now = moment().format('HH');
-    console.log(now);
 
     $('.row').each(function () {
       // convert block time string to a moment object
       let blockTime = moment($(this).find('#block-time').text(), 'hh A').format(
         'HH'
       );
-      console.log(blockTime);
       let row = $(this).children();
       if (blockTime < now) {
         row.removeClass(['present', 'future']).addClass('past');
@@ -129,4 +163,13 @@
   window.onresize = function () {
     height();
   };
+
+  // random background for header text
+  let src = [];
+  for (i = 0; i < 3; i++) {
+    src.push(`url('./assets/images/bg${i}.jpg`);
+  }
+  let bg = src[Math.floor(Math.random() * src.length)];
+  $('.jumbotron h1').css('background-image', bg);
+  $('footer').css('background-image', bg);
 })(jQuery);
