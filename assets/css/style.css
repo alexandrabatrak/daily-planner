@@ -1,9 +1,6 @@
 :root {
   --white: #ffffff;
   --black: #050505;
-  --light1: #dddbcb;
-  --light2: #f5f1e3;
-  /* --red: #db2b39; */
   --secondary: #a9c3ed;
   --primary: #83a8f3;
   --accent: #3772ff;
@@ -29,26 +26,6 @@ main {
   margin-left: 11%;
 }
 
-input {
-  background: transparent;
-  border: none;
-  resize: none;
-  border-left: 1px solid var(--secondary);
-  padding: 10px;
-}
-
-input,
-.save-button {
-  transition: all 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
-}
-
-input#daily-task:focus {
-  transform: scale(1.02);
-  border: 2px solid;
-  position: relative;
-  z-index: 1;
-}
-
 main {
   max-width: 1200px;
 }
@@ -61,7 +38,6 @@ main {
   font-size: 6.5vmax;
   font-weight: bold;
   text-transform: uppercase;
-  /* background-image: url('../images/bg.jpg'); */
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -83,6 +59,26 @@ main {
 .hour {
   font-size: 1.5rem;
   border-right: 1px solid var(--secondary);
+}
+
+input {
+  background: transparent;
+  border: none;
+  resize: none;
+  border-left: 1px solid var(--secondary);
+  padding: 10px;
+}
+
+input,
+.save-button {
+  transition: all 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
+}
+
+input#daily-task:focus {
+  transform: scale(1.02);
+  border: 2px solid;
+  position: relative;
+  z-index: 1;
 }
 
 .row:has(.past) {
@@ -128,7 +124,7 @@ main {
 .save-button {
   border-left: 1px solid var(--secondary);
   color: var(--white);
-  /* transition: all 0.3s ease-in-out; */
+  transition: all 0.25s;
 }
 
 .save-button:focus {
@@ -157,14 +153,23 @@ main {
   color: var(--black);
 }
 
+.btn.disabled,
+.btn:disabled {
+  opacity: 1;
+}
+
 footer {
-  height: 150px;
+  height: 300px;
   margin-left: 9%;
   color: var(--white);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 100%;
   text-shadow: 1px 1px 10px var(--accent);
+}
+
+#currentTime {
+  font-size: 5vmax;
 }
 
 @keyframes confirm {
@@ -176,18 +181,3 @@ footer {
     transform: skewY(15deg) rotate(-5deg);
   }
 }
-
-@media (min-width: 1199px) {
-  /* #currentTime {
-    position: absolute;
-    top: 10%;
-    right: 10%;
-  } */
-}
-
-/* @media (max-width: 567px) {
-  #currentTime {
-    font-size: 1rem;
-    height: 100%;
-  }
-} */
