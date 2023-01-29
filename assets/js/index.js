@@ -2,11 +2,11 @@
   // header date
   $('#currentDay').text(moment().format('LL'));
   //* time - do I want it?
-  // let updateTime = () => {
-  //   $('#currentTime').text(moment().format('HH:mm'));
-  //   setInterval(updateTime, 60000);
-  // };
-  // setTimeout(updateTime, 0);
+  let updateTime = () => {
+    $('#currentTime').text(moment().format('HH:mm'));
+    setInterval(updateTime, 60000);
+  };
+  setTimeout(updateTime, 0);
 
   //
   let blocks = [];
@@ -28,25 +28,59 @@
 
   let taskData = JSON.parse(localStorage.getItem('taskData')) || [];
   let today = moment().format('LL');
-  // rended blocks
+  // render blocks
+  // for (let i = 0; i < blocks.length; i++) {
+  //   $('#container').append(
+  //     `<div class="row w-100" id="row-${i}">
+  //       <div class="hour col-2 d-flex justify-content-left align-items-center">
+  //       <span id="block-time" class="" data-index="${i}">${blocks[i]}</span>
+  //       </div>
+  //       <div class="col-md-9 col-8 d-flex w-100 p-0">
+  //       <input id="daily-task" class="w-100 px-2" value="${
+  //         taskData[i] && taskData[i].date === today ? taskData[i].task : ''
+  //       }" data-index="${i}"/>
+  //       </div>
+  //       <div class="col-md-1 col-2 d-flex p-0 w-100 h-100">
+  //       <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
+  //       <i class="fa-solid fa-plus"></i>
+  //       </button>
+  //       </div>
+  //       <div>`
+  //   );
+
   for (let i = 0; i < blocks.length; i++) {
-    $('#container').append(
-      `<div class="row w-100" id="row-${i}">
-          <div class="hour col-2 d-flex justify-content-left align-items-center">
-            <span id="block-time" class="" data-index="${i}">${blocks[i]}</span>
-          </div>
-          <div class="col-md-9 col-8 d-flex w-100 p-0">
-            <input id="daily-task" class="w-100 px-2" value="${
-              taskData[i] && taskData[i].date === today ? taskData[i].task : ''
-            }" data-index="${i}"/>
-          </div>
-          <div class="col-md-1 col-2 d-flex p-0 w-100 h-100">
-            <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-      <div>`
-    );
+    // check if row exists to avoid creating empty div inside on each loop
+    let row = $(`#row-${i}`);
+    // if row exists update input value from the localStorage
+    if (row.length) {
+      let input = $(`#daily-task[data-index=${i}]`);
+      input.val(
+        taskData[i] && taskData[i].date === today ? taskData[i].task : ''
+      );
+    } else {
+      // create new row and do all that fancy shmancy stuff
+      $('#container').append(
+        `<div class="row w-100" id="row-${i}">
+                  <div class="hour col-2 d-flex justify-content-left align-items-center">
+                      <span id="block-time" class="" data-index="${i}">${
+          blocks[i]
+        }</span>
+                  </div>
+                  <div class="col-md-9 col-8 d-flex w-100 p-0">
+                      <input id="daily-task" class="w-100 px-2" value="${
+                        taskData[i] && taskData[i].date === today
+                          ? taskData[i].task
+                          : ''
+                      }" data-index="${i}"/>
+                  </div>
+                  <div class="col-md-1 col-2 d-flex p-0 w-100 h-100">
+                      <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
+                          <i class="fa-solid fa-plus"></i>
+                      </button>
+                  </div>
+              </div>`
+      );
+    }
 
     // event listener for save
     // moved in to see if it will work instead of creating listener separately
@@ -93,14 +127,24 @@
 
   // save all button
   $('#container').append(
-    '<button id="ultimate-save" class="btn">Save All<button>'
+    `<div class="row w-100 d-flex justify-content-end align-items-center">
+      <button id="ultimate-save" class="btn text-uppercase">Save all</button>
+    </div>`
   );
   $('#container').on('click', '#ultimate-save', function () {
+    let saveAllBtn = $('#ultimate-save');
+    saveAllBtn.prop('disabled', true).text('Wait...');
     $(`input[id='daily-task']`).each(function () {
       let i = $(this).data('index');
       let task = $(this).val();
       saveToLocal(i, task);
     });
+    setTimeout(() => {
+      saveAllBtn.text('Saved!');
+      setTimeout(() => {
+        saveAllBtn.prop('disabled', false).text('Save all');
+      }, 250);
+    }, 500);
   });
 
   // save to Local for event listeners
@@ -121,16 +165,29 @@
     localStorage.setItem('taskData', JSON.stringify(taskData));
   }
 
-  // colorise
-  function colorise() {
-    // get current time
-    let nowTime = moment().format('hh A');
+  let nowTime = moment();
 
-    // testing testing who is who
-    // TODO: Add a button for test date - randomise it within the range - for testing outside of business hours
-    // let nowTime = 'January 28th 2023, 3:48:35';
-    // let now = moment(nowTime, 'MMMM Do YYYY, h:mm:ss a').format('hh A');
-    let now = moment().format('HH');
+  let testTime = $(
+    '<button id="testTime" class="btn">Set time to 1:40PM to test</button>'
+  );
+  $('.time-wrapper').append(testTime);
+
+  // testing testing who is who
+  // TODO: Add a button for test date - randomise it within the range - for testing outside of business hours
+  // *This works, apart from input field is not getting 'past' class removed
+  testTime.on('click', setTestTime);
+  function setTestTime() {
+    nowTime = moment('13:40', 'HH:mm');
+    console.log(nowTime);
+    colorise(nowTime);
+  }
+
+  // colorise
+  function colorise(nowTime) {
+    // get current time
+
+    now = moment(nowTime).format('HH');
+    console.log(now);
 
     $('.row').each(function () {
       // convert block time string to a moment object
@@ -139,16 +196,19 @@
       );
       let row = $(this).children();
       if (blockTime < now) {
+        // moment.js functions are not working properly??
+        // if (moment(blockTime).isBefore(nowTime)) {
         row.removeClass(['present', 'future']).addClass('past');
       } else if (blockTime === now) {
+        // else if (moment(blockTime).isSame(nowTime)) {
         row.removeClass(['past', 'future']).addClass('present');
       } else {
         row.removeClass(['past', 'present']).addClass('future');
       }
     });
-    setInterval(colorise, 60000);
+    setInterval(() => colorise(nowTime), 60000);
   }
-  setTimeout(colorise, 0);
+  setTimeout(() => colorise(nowTime), 0);
 
   // main height
   let height = () => {
@@ -166,7 +226,7 @@
 
   // random background for header text
   let src = [];
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < 4; i++) {
     src.push(`url('./assets/images/bg${i}.jpg`);
   }
   let bg = src[Math.floor(Math.random() * src.length)];
