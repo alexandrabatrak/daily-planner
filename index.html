@@ -6,36 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous" />
     <script
       src="https://kit.fontawesome.com/f549d17040.js"
       crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.bunny.net" />
     <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      href="https://fonts.bunny.net/css?family=roboto-flex:400"
       rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Work Day Scheduler</title>
   </head>
 
   <body>
-    <header class="jumbotron mb-0">
+    <header class="jumbotron mb-0 pl-md-0">
       <h1 class="display-3">Work Day Scheduler</h1>
       <p class="lead">A simple calendar app for scheduling your work day</p>
-    </header>
-    <main class="px-lg-5">
       <div
         class="time-wrapper d-flex justify-content-between align-items-center pr-3 display-4">
         <p id="currentDay"></p>
       </div>
-      <div id="container"></div>
+    </header>
+    <main class="px-3 px-md-0">
+      <div id="container" class="container-fluid"></div>
     </main>
-    <footer class="footer d-flex justify-content-end mt-5 pr-5">
-      <div class="container p-3 my-5 mx-auto">
+    <footer class="footer d-flex justify-content-end mt-5 pl-md-3">
+      <div class="container-fluid p-3 my-5 mx-auto">
         <p class="copyright">Alexandra Batrak © 2023</p>
         <p id="currentTime"></p>
       </div>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/index.js"></script>
   </body>
