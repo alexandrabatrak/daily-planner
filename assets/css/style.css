@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto Flex', sans-serif;
   font-size: 16px;
   line-height: 1;
   background: linear-gradient(
@@ -23,7 +23,7 @@ body {
 
 header,
 main {
-  margin-left: 11%;
+  margin-left: 11vw;
 }
 
 main {
@@ -50,18 +50,45 @@ main {
   white-space: pre-wrap;
 }
 
+.ultimate-buttons-wrapper button {
+  background-color: transparent;
+}
+
+#ultimate-save {
+  border: 2px solid var(--accent);
+}
+
+#ultimate-save:hover {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+#ultimate-clear {
+  border: 2px solid var(--secondary);
+}
+
+#ultimate-clear:hover {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
 .row {
   white-space: pre-wrap;
   height: 80px;
   border-top: 1px solid var(--white);
 }
 
-.hour {
-  font-size: 1.5rem;
+.row:nth-child(n + 1) {
   border-right: 1px solid var(--secondary);
+  border-left: 1px solid var(--secondary);
 }
 
-input {
+.hour {
+  font-size: 1.5rem;
+}
+
+input,
+textarea {
   background: transparent;
   border: none;
   resize: none;
@@ -70,11 +97,12 @@ input {
 }
 
 input,
-.save-button {
+textarea,
+button {
   transition: all 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
 }
 
-input#daily-task:focus {
+textarea#daily-task:focus {
   transform: scale(1.02);
   border: 2px solid;
   position: relative;
@@ -92,7 +120,7 @@ input#daily-task:focus {
   );
 }
 
-.past input:focus,
+.past textarea:focus,
 .past button:focus-visible {
   background: repeating-linear-gradient(
     45deg,
@@ -103,53 +131,55 @@ input#daily-task:focus {
   );
 }
 
-.past input:not(:focus) {
+.past textarea:not(:focus) {
   opacity: 0.75;
 }
 
 .present,
-.present input,
+.present textarea,
 .present button {
   background-color: var(--accent);
   color: var(--white);
 }
 
 .future,
-.future input,
+.future textarea,
 .future button {
   background-color: var(--primary);
   color: var(--black);
 }
 
-.save-button {
+.buttons-wrapper button {
   border-left: 1px solid var(--secondary);
   color: var(--white);
   transition: all 0.25s;
 }
 
-.save-button:focus {
+button:focus,
+.btn.focus,
+.btn:focus {
   box-shadow: none;
 }
 
-.save-button:focus-visible {
+button:focus-visible {
   border: 2px solid var(--black);
   transform: scale(1.05);
   position: relative;
   z-index: 1;
 }
 
-.save-button i {
+.buttons-wrapper button i {
   color: var(--white);
 }
 
-.save-button i.saved {
+button i.saved {
   font-size: 20px;
   animation: confirm 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
 }
 
-.save-button:hover,
-.save-button:focus,
-.save-button i.saved {
+.buttons-wrapper button:hover,
+.buttons-wrapper button:focus,
+.buttons-wrapper button i.saved {
   color: var(--black);
 }
 
@@ -179,5 +209,15 @@ footer {
   }
   50% {
     transform: skewY(15deg) rotate(-5deg);
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 0;
+  }
+
+  #container {
+    padding: 0.5rem;
   }
 }
