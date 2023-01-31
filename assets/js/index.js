@@ -21,27 +21,53 @@
     hours = JSON.parse(localStorage.getItem('hours'));
   }
   // get hours grabbing UI ready
-  let hoursStart = $('<input type="text" id="user-hours-start" value="2"/>');
-  let hoursEnd = $('<input type="text" id="user-hours-end" value="23"/>');
+  let hoursStart = $(
+    '<input type="text" id="user-hours-start" value="2" max="2" required/>'
+  );
+  let hoursEnd = $(
+    '<input type="text" id="user-hours-end" value="23" max="2" required/>'
+  );
   hoursStart.val(hours.start);
   hoursEnd.val(hours.end);
-  let submitHours = $(`<button id="submitHours" class="btn">Update</button>`);
-  $('.time-wrapper').after(
-    `<div class="hours-input"><p>Adjust the hours (24h format):</p></div>`
+  let submitHours = $(
+    `<button id="submitHours" class="btn rounded-0">Update</button>`
   );
-  $('.hours-input').append([hoursStart, hoursEnd, submitHours]);
+  $('form').append([hoursStart, `<span>-</span>`, hoursEnd, submitHours]);
 
   // clickety click magic to update hours project
   submitHours.on('click', (e) => {
+    // prevent page refresh
     e.preventDefault();
-    e.stopPropagation();
-    blocks = [];
-    $('#container').empty();
-    hours.start = moment(hoursStart.val(), 'hh').format('HH');
-    hours.end = moment(hoursEnd.val(), 'hh').format('HH');
-    localStorage.setItem('hours', JSON.stringify(hours));
-    renderBlocks();
-    colorise();
+    // validate hours input
+    if (
+      !$.isNumeric(hoursStart.val()) ||
+      hoursStart.val() < 0 ||
+      hoursStart.val() > 23 ||
+      !$.isNumeric(hoursEnd.val()) ||
+      hoursEnd.val() < 0 ||
+      hoursEnd.val() > 23 ||
+      hoursEnd.val() < hoursStart.val()
+    ) {
+      // throw error
+      if (!$('#input-error').length) {
+        $('.hours-input')
+          .append(`<p id="input-error" class="input-error pt-3">Please, choose approptiate hours in 24h format</p>
+        `);
+      }
+    } else {
+      // remove error
+      $('#input-error').remove();
+      // do the dance
+      e.preventDefault();
+      e.stopPropagation();
+      blocks = [];
+      $('#container').empty();
+      hours.start = moment(hoursStart.val(), 'hh').format('HH');
+      hours.end = moment(hoursEnd.val(), 'hh').format('HH');
+      localStorage.setItem('hours', JSON.stringify(hours));
+      renderBlocks();
+      colorise();
+    }
   });
 
   // get stored tasks
@@ -79,7 +105,6 @@
       // event listener for save
       // moved in to see if it will work instead of creating listener separately
       // *event delegation*
-
       $('#container').on('click', '#save-button', saveTask);
       $('#container').on('keyup', 'textarea[id="daily-task"]', function (e) {
         // on pressing enter from input, call function passing 'this' arguments
@@ -91,6 +116,7 @@
           saveTask.call(this);
         }
       });
+      // TODO: combine the icon animation with saveTask function - to avoid repetition
       $('#container').on('click', '#clear-button', function () {
         let i = $(this).data('index');
         let icon = $(this).children('i');
