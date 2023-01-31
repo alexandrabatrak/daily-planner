@@ -13,8 +13,8 @@
   // hours
   let blocks = [];
   let hours = {
-    start: 02,
-    end: 23,
+    start: 08,
+    end: 20,
   };
   // update object with locally stored value if there is one
   if (localStorage.getItem('hours')) {
