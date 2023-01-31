@@ -5,6 +5,7 @@
   --primary: #83a8f3;
   --accent: #3772ff;
   --accent-darker: #1e3c82;
+  --warning: #db2b39;
 }
 
 body {
@@ -38,7 +39,8 @@ main {
   font-size: 6.5vmax;
   font-weight: bold;
   text-transform: uppercase;
-  background-size: 100%;
+  word-break: break-word;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-clip: text;
@@ -50,26 +52,39 @@ main {
   white-space: pre-wrap;
 }
 
-.ultimate-buttons-wrapper button {
-  background-color: transparent;
+.hours-input input {
+  width: 3vw;
+  min-width: 3rem;
+  text-align: center;
+  padding: 0.5rem;
+  border: none;
+  border-bottom: 2px solid var(--secondary);
 }
 
-#ultimate-save {
+.hours-input input,
+.hours-input span {
+  margin-right: 1rem;
+  font-size: 1.5vmax;
+}
+
+.hours-input input:focus {
+  outline: 0;
+  border-bottom-color: var(--black);
+}
+
+.hours-input button {
+  text-transform: uppercase;
   border: 2px solid var(--accent);
 }
 
-#ultimate-save:hover {
+.hours-input button:hover {
   background-color: var(--accent);
   color: var(--white);
 }
 
-#ultimate-clear {
-  border: 2px solid var(--secondary);
-}
-
-#ultimate-clear:hover {
-  background-color: var(--secondary);
-  color: var(--white);
+.input-error {
+  color: var(--warning);
+  font-weight: bold;
 }
 
 .row {
@@ -84,7 +99,13 @@ main {
 }
 
 .hour {
-  font-size: 1.5rem;
+  font-size: 1.5vmax;
+  padding: 0 0.5rem 0;
+}
+
+/* it's not centered in media sm, so use the line-height as fix.*/
+.hour span {
+  line-height: 0.5rem;
 }
 
 input,
@@ -188,6 +209,28 @@ button i.saved {
   opacity: 1;
 }
 
+.ultimate-buttons-wrapper button {
+  background-color: transparent;
+}
+
+#ultimate-save {
+  border: 2px solid var(--accent);
+}
+
+#ultimate-save:hover {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+#ultimate-clear {
+  border: 2px solid var(--secondary);
+}
+
+#ultimate-clear:hover {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
 footer {
   height: 300px;
   margin-left: 9%;
@@ -213,7 +256,18 @@ footer {
 }
 
 @media (max-width: 768px) {
-  main {
+  body {
+    background: linear-gradient(
+      180deg,
+      var(--black) 1%,
+      var(--accent) 1%,
+      var(--accent) 2%,
+      white 2%
+    );
+  }
+  header,
+  main,
+  footer {
     margin-left: 0;
   }
 
