@@ -10,7 +10,7 @@
   // call it out without any interval the first time
   setTimeout(updateTime, 0);
 
-  //
+  // hours
   let blocks = [];
   let hours = {
     start: 02,
@@ -30,41 +30,40 @@
   hoursStart.val(hours.start);
   hoursEnd.val(hours.end);
 
-  [hoursStart, hoursEnd].forEach((input) => {
-    input.on('input', function () {
-      let value = $(this).val();
-      if (value.length === 2) {
-        let n = parseInt(
-          value.toLocaleString('en-GB', {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })
-        );
-        $(this).val(n);
-      }
-    });
-    return input;
-  });
-
   let submitHours = $(
     `<button id="submitHours" class="btn rounded-0">Update</button>`
   );
   $('form').append([hoursStart, `<span>-</span>`, hoursEnd, submitHours]);
 
   // clickety click magic to update hours project
+  // TODO: Better validation: if input higher than 23, automatically convert the value to 23, if input less than 0, convert to 0 as lowest
   submitHours.on('click', (e) => {
     // prevent page refresh
     e.preventDefault();
     // validate hours input
     let start = parseInt(hoursStart.val());
     let end = parseInt(hoursEnd.val());
+
+    if (start < 0) {
+      hoursStart.val('0');
+    }
+    if (start > 23) {
+      hoursStart.val('23');
+    }
+    if (end < 0) {
+      hoursEnd.val('0');
+    }
+    if (end > 23) {
+      hoursEnd.val('23');
+    }
+
     if (
       !$.isNumeric(start) ||
-      start < 0 ||
-      start > 23 ||
+      // start < 0 ||
+      // start > 23 ||
       !$.isNumeric(end) ||
-      end < 0 ||
-      end > 23 ||
+      // end < 0 ||
+      // end > 23 ||
       end < start
     ) {
       // throw error
@@ -103,7 +102,6 @@
     for (let i = hours.start; i <= hours.end; i++) {
       blocks.push(moment().hour(i).format('H:00'));
     }
-    // let taskData = JSON.parse(localStorage.getItem('taskData')) || [];
     let today = moment().format('LL');
     for (let i = 0; i < blocks.length; i++) {
       $('#container').append(
@@ -128,33 +126,6 @@
             </div>
         </div>`
       );
-      // event listener for save
-      // moved in to see if it will work instead of creating listener separately
-      // *event delegation*
-      $('#container').on('click', '#save-button', saveTask);
-      $('#container').on('keyup', 'textarea[id="daily-task"]', function (e) {
-        // on pressing enter from input, call function passing 'this' arguments
-        if (e.which === 13 && !e.shiftKey) {
-          e.stopPropagation();
-          e.preventDefault();
-          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
-          $(this).blur();
-          saveTask.call(this);
-        }
-      });
-      // TODO: combine the icon animation with saveTask function - to avoid repetition
-      $('#container').on('click', '#clear-button', function () {
-        let i = $(this).data('index');
-        let icon = $(this).children('i');
-        // animate icon
-        icon.removeClass('fa-trash-can').addClass('fa-check saved');
-        $(`textarea[data-index=${i}]`).val('');
-        let task = '';
-        saveToLocal(i, task);
-        setTimeout(() => {
-          icon.removeClass('fa-check saved').addClass('fa-trash-can');
-        }, 1000);
-      });
     }
     // save all button/
     $('#container').append(
@@ -166,7 +137,7 @@
   }
   renderBlocks();
 
-  // event listener callback
+  // SAVE callback
   function saveTask() {
     let icon = $(this).children('i');
     // animate icon
@@ -180,22 +151,6 @@
       icon.removeClass('fa-check saved').addClass('fa-plus');
     }, 1000);
   }
-
-  $('main').on('click', '#ultimate-save', function () {
-    let saveAllBtn = $('#ultimate-save');
-    saveAllBtn.prop('disabled', true).text('Wait...');
-    $(`textarea[id='daily-task']`).each(function () {
-      let i = $(this).data('index');
-      let task = $(this).val();
-      saveToLocal(i, task);
-    });
-    setTimeout(() => {
-      saveAllBtn.text('Saved!');
-      setTimeout(() => {
-        saveAllBtn.prop('disabled', false).text('Save all');
-      }, 250);
-    }, 500);
-  });
 
   // save to Local for event listeners
   function saveToLocal(i, task) {
@@ -214,6 +169,49 @@
     }
     localStorage.setItem('taskData', JSON.stringify(taskData));
   }
+
+  // chain event listeners
+  $('#container')
+    .on('click', '#save-button', saveTask)
+    .on('keyup', 'textarea[id="daily-task"]', function (e) {
+      // on pressing enter from input, call function passing 'this' arguments
+      if (e.which === 13 && !e.shiftKey) {
+        e.stopPropagation();
+        e.preventDefault();
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+        $(this).blur();
+        saveTask.call(this);
+      }
+    })
+    .on('click', '#clear-button', function () {
+      let i = $(this).data('index');
+      let icon = $(this).children('i');
+      // animate icon
+      icon.removeClass('fa-trash-can').addClass('fa-check saved');
+      $(`textarea[data-index=${i}]`).val('');
+      let task = '';
+      saveToLocal(i, task);
+      setTimeout(() => {
+        icon.removeClass('fa-check saved').addClass('fa-trash-can');
+      }, 1000);
+    });
+
+  // save all
+  $('main').on('click', '#ultimate-save', function () {
+    let saveAllBtn = $('#ultimate-save');
+    saveAllBtn.prop('disabled', true).text('Wait...');
+    $(`textarea[id='daily-task']`).each(function () {
+      let i = $(this).data('index');
+      let task = $(this).val();
+      saveToLocal(i, task);
+    });
+    setTimeout(() => {
+      saveAllBtn.text('Saved!');
+      setTimeout(() => {
+        saveAllBtn.prop('disabled', false).text('Save all');
+      }, 250);
+    }, 500);
+  });
 
   // clear all
   $('#ultimate-clear').on('click', function () {
