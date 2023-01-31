@@ -4,16 +4,16 @@ Bootcamp week 07: Daily planner :blue_heart:
 
 ## About
 
-> I _need_ routine but I cannot adhere to the planner even if my life depends on it
+> I _need_ a routine, but I cannot adhere to the planner even if my life depends on it
 
-_This app runs in the browser, and features dynamically updated HTML and CSS powered by JavaScript/jQuery, Bootstrap and moment.js._
-**Accessible, convenient, awesome**. Tested in Chrome, Firefox and Opera.
+_This app runs in the browser and features dynamically updated HTML and CSS powered by JavaScript/jQuery, Bootstrap and moment.js._
+**Accessible, convenient, awesome**. Tested in WebKit-based browsers. Since Firefox doesn't support the CSS selector `: has`, the result looks a bit different.
 
 ### Features:
 
 - [x] Daily planner hour by hour
 - [x] Hours options input for the planner, dynamically updated HTML based on input
-- [x] UX: input tasks and save by either pressing 'enter' or clicking on a 'add' button, clear task field with a 'delete' button
+- [x] UX: input tasks and save by either pressing 'enter' or clicking on a 'add' button, clear the task field with a 'delete' button
 - [x] UX: Option to save/clear all fields at the same time
 - [x] Save data locally: by date, time and task
 - [x] Crisp like a freezing wind mobile-first responsive design
@@ -25,7 +25,7 @@ _This app runs in the browser, and features dynamically updated HTML and CSS pow
 
 ### What I've learned
 
-_this week material_
+_this week's material_
 - Moment.js
 - jQuery format
 
