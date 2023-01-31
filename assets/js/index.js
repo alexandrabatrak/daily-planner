@@ -172,7 +172,6 @@
       if (e.which === 13 && !e.shiftKey) {
         e.stopPropagation();
         e.preventDefault();
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
         $(this).blur();
         saveTask.call(this);
       }
@@ -239,7 +238,7 @@
       let blockTime = moment($(this).find('#block-time').text(), 'hh A').format(
         'HH'
       );
-      let row = $(this).children();
+      let row = $(this).not('.ultimate-buttons-wrapper');
       row.removeClass(['past', 'present', 'future']);
       if (blockTime < now) {
         row.addClass('past');

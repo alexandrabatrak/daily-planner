@@ -130,7 +130,7 @@ textarea#daily-task:focus {
   z-index: 1;
 }
 
-.row:has(.past) {
+.row.past {
   background-color: var(--secondary);
   background: repeating-linear-gradient(
     45deg,
@@ -354,18 +354,5 @@ footer {
 
   #container {
     padding: 0.5rem;
-  }
-}
-
-@-moz-document url-prefix() {
-  .row .past {
-    background-color: var(--secondary);
-    background: repeating-linear-gradient(
-      45deg,
-      var(--secondary),
-      var(--secondary) 2rem,
-      var(--primary) 2rem,
-      var(--primary) 3.5rem
-    );
   }
 }
