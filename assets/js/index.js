@@ -29,6 +29,23 @@
   );
   hoursStart.val(hours.start);
   hoursEnd.val(hours.end);
+
+  [hoursStart, hoursEnd].forEach((input) => {
+    input.on('input', function () {
+      let value = $(this).val();
+      if (value.length === 2) {
+        let n = parseInt(
+          value.toLocaleString('en-GB', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })
+        );
+        $(this).val(n);
+      }
+    });
+    return input;
+  });
+
   let submitHours = $(
     `<button id="submitHours" class="btn rounded-0">Update</button>`
   );
@@ -39,21 +56,30 @@
     // prevent page refresh
     e.preventDefault();
     // validate hours input
+    let start = parseInt(hoursStart.val());
+    let end = parseInt(hoursEnd.val());
     if (
-      !$.isNumeric(hoursStart.val()) ||
-      hoursStart.val() < 0 ||
-      hoursStart.val() > 23 ||
-      !$.isNumeric(hoursEnd.val()) ||
-      hoursEnd.val() < 0 ||
-      hoursEnd.val() > 23 ||
-      hoursEnd.val() < hoursStart.val()
+      !$.isNumeric(start) ||
+      start < 0 ||
+      start > 23 ||
+      !$.isNumeric(end) ||
+      end < 0 ||
+      end > 23 ||
+      end < start
     ) {
       // throw error
       if (!$('#input-error').length) {
-        $('.hours-input')
-          .append(`<p id="input-error" class="input-error pt-3">Please, choose approptiate hours in 24h format</p>
-        `);
+        $('.hours-input').append(
+          `<p id="input-error" class="input-error pt-3"></p>`
+        );
       }
+      $('#input-error').text(
+        `Please, ${
+          end < start
+            ? 'make sure end hour is later than start'
+            : 'choose appropriate hours from 0 to 23'
+        }.`
+      );
     } else {
       // remove error
       $('#input-error').remove();
@@ -61,9 +87,9 @@
       e.preventDefault();
       e.stopPropagation();
       blocks = [];
-      $('#container').empty();
       hours.start = moment(hoursStart.val(), 'hh').format('HH');
       hours.end = moment(hoursEnd.val(), 'hh').format('HH');
+      $('#container').empty();
       localStorage.setItem('hours', JSON.stringify(hours));
       renderBlocks();
       colorise();
@@ -188,6 +214,29 @@
     }
     localStorage.setItem('taskData', JSON.stringify(taskData));
   }
+
+  // clear all
+  $('#ultimate-clear').on('click', function () {
+    $('main').append(
+      `<div id="confirm-delete"><p>Are you sure you want to delete all tasks?</p></div>`
+    );
+    $('#confirm-delete').dialog({
+      resizable: false,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: {
+        'Delete all tasks': function () {
+          localStorage.removeItem('taskData');
+          $('textarea').val('');
+          $(this).dialog('close');
+        },
+        Cancel: function () {
+          $(this).dialog('close');
+        },
+      },
+    });
+  });
 
   function colorise() {
     // get current time
