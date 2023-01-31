@@ -7,7 +7,7 @@ Bootcamp week 07: Daily planner :blue_heart:
 > I _need_ a routine, but I cannot adhere to the planner even if my life depends on it
 
 _This app runs in the browser and features dynamically updated HTML and CSS powered by JavaScript/jQuery, Bootstrap and moment.js._
-**Accessible, convenient, awesome**. Tested in WebKit-based browsers. Since Firefox doesn't support the CSS selector `: has`, the result looks a bit different.
+**Accessible, convenient, awesome**. Tested in Chrome, Opera and Firefox.
 
 ### Features:
 
