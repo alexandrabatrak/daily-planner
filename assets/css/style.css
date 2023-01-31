@@ -213,22 +213,26 @@ button i.saved {
   background-color: transparent;
 }
 
-#ultimate-save {
+#ultimate-save,
+.ui-dialog .ui-dialog-buttonpane button:first-of-type {
   border: 2px solid var(--accent);
 }
 
-#ultimate-save:hover {
+#ultimate-save:hover,
+.ui-dialog .ui-dialog-buttonpane button:first-of-type:hover {
   background-color: var(--accent);
   color: var(--white);
 }
 
-#ultimate-clear {
+#ultimate-clear,
+.ui-dialog .ui-dialog-buttonpane button:last-of-type {
   border: 2px solid var(--secondary);
 }
 
-#ultimate-clear:hover {
+#ultimate-clear:hover,
+.ui-dialog .ui-dialog-buttonpane button:last-of-type:hover {
   background-color: var(--secondary);
-  color: var(--white);
+  color: var(--black);
 }
 
 footer {
@@ -243,6 +247,83 @@ footer {
 
 #currentTime {
   font-size: 5vmax;
+}
+
+/* jQuery confirm modal */
+.ui-dialog {
+  font-family: 'Roboto Flex', sans-serif;
+  padding: 0;
+  outline: 0;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.ui-dialog .ui-dialog-titlebar,
+.ui-dialog .ui-widget-content {
+  border: 0;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.ui-dialog-content p {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+}
+
+.ui-icon,
+.ui-widget-content .ui-icon {
+  background: none;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: -1px;
+  right: 0;
+  margin: 0 -10px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+  background: transparent;
+  border: 0;
+  margin: -5px 0 0 0;
+}
+
+.ui-button-icon.ui-icon.ui-icon-closethick:before {
+  content: '\58';
+  font-family: 'Font Awesome 6 Free';
+  font-size: 1rem;
+  position: absolute;
+  right: 2px;
+  height: 20px;
+  width: 20px;
+  text-indent: initial !important;
+}
+
+.ui-button:hover,
+.ui-button:focus,
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+  border: none;
+  background: transparent;
+  color: var(--accent);
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  margin: 0;
+  padding-top: 0.5em;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+  background: transparent;
+}
+
+.ui-corner-all {
+  border-radius: 0;
+}
+
+.ui-widget-overlay {
+  background: var(--secondary);
 }
 
 @keyframes confirm {
