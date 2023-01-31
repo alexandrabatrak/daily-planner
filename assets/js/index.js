@@ -27,6 +27,7 @@
   let hoursEnd = $(
     '<input type="text" id="user-hours-end" value="23" max="2" required/>'
   );
+  // pass the values from storage
   hoursStart.val(hours.start);
   hoursEnd.val(hours.end);
 
@@ -45,33 +46,26 @@
     let end = parseInt(hoursEnd.val());
 
     if (start < 0) {
-      hoursStart.val('0');
+      moment(hoursStart.val('0'), 'hh').format('HH');
     }
     if (start > 23) {
-      hoursStart.val('23');
+      moment(hoursStart.val('23'), 'hh').format('HH');
     }
     if (end < 0) {
-      hoursEnd.val('0');
+      moment(hoursEnd.val('0'), 'hh').format('HH');
     }
     if (end > 23) {
-      hoursEnd.val('23');
+      moment(hoursEnd.val('23'), 'hh').format('HH');
     }
 
-    if (
-      !$.isNumeric(start) ||
-      // start < 0 ||
-      // start > 23 ||
-      !$.isNumeric(end) ||
-      // end < 0 ||
-      // end > 23 ||
-      end < start
-    ) {
+    if (!$.isNumeric(start) || !$.isNumeric(end) || end < start) {
       // throw error
       if (!$('#input-error').length) {
         $('.hours-input').append(
           `<p id="input-error" class="input-error pt-3"></p>`
         );
       }
+      // specify the error
       $('#input-error').text(
         `Please, ${
           end < start
@@ -100,7 +94,7 @@
   // render blocks
   function renderBlocks() {
     for (let i = hours.start; i <= hours.end; i++) {
-      blocks.push(moment().hour(i).format('H:00'));
+      blocks.push(moment().hour(i).format('HH:00'));
     }
     let today = moment().format('LL');
     for (let i = 0; i < blocks.length; i++) {
@@ -227,10 +221,10 @@
         'Delete all tasks': function () {
           localStorage.removeItem('taskData');
           $('textarea').val('');
-          $(this).dialog('close');
+          $(this).dialog('close').remove();
         },
         Cancel: function () {
-          $(this).dialog('close');
+          $(this).dialog('close').remove();
         },
       },
     });
@@ -260,11 +254,11 @@
   }
   setTimeout(() => colorise(), 0);
 
-  // main height
+  // main section height
   let height = () => {
     $('main').css({
       'min-height': `calc( 100vh - ${
-        $('header').outerHeight() + $('footer').outerHeight()
+        $('header').outerHeight() + $('footer').outerHeight(true)
       }px )`,
     });
   };
