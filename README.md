@@ -21,6 +21,7 @@ _This app runs in the browser, and features dynamically updated HTML and CSS pow
 ### [View Project](https://alexandrabatrak.github.io/daily-planner)
 
 ![Screenshot](/assets/images/screenshot.png)
+![Screenshot2](/assets/images/screenshot2.png)
 
 ### What I've learned
 
