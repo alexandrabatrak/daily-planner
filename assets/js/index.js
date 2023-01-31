@@ -250,7 +250,8 @@
       }
     });
     // update colors every hour
-    setInterval(() => colorise(), 60000);
+    // ISSUE: I suspect it keeps running at some point and get's stuck in some loop on the first element of blocks
+    // setInterval(() => colorise(), 60000);
   }
   setTimeout(() => colorise(), 0);
 
