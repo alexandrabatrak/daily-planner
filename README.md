@@ -49,4 +49,6 @@ _researched while working on this project_
 
 Licenced under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) license.
 
+[![Image of github-profile-views-counter](https://github.com/alexandrabatrak/github-profile-views-counter/blob/master/svg/593365146/badge.svg)](https://github.com/alexandrabatrak/github-profile-views-counter/blob/master/readme/593365146/week.md)
+
 _Copyright © 2023 Alexandra Batrak_
