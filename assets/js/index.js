@@ -1,7 +1,7 @@
 (function ($) {
   // header date
   $('#currentDay').text(moment().format('LL'));
-  //* time - do I want it?
+
   let updateTime = () => {
     $('#currentTime').text(moment().format('HH:mm'));
     // update every hour
@@ -99,22 +99,22 @@
     let today = moment().format('LL');
     for (let i = 0; i < blocks.length; i++) {
       $('#container').append(
-        `<div class="row" id="row-${i}">
+        `<div class="row">
             <div class="hour col-2 d-flex justify-content-left align-items-center h-100">
-              <span id="block-time" data-index="${i}">
+              <span class="block-time" data-index="${i}">
                 ${blocks[i]}
               </span>
             </div>
             <div class="col-7 col-md-8 d-flex w-100 h-100 p-0">
-              <textarea id="daily-task" class="w-100 h-100" data-index="${i}">${
+              <textarea class="daily-task w-100 h-100" data-index="${i}">${
           taskData[i] && taskData[i].date === today ? taskData[i].task : ''
         }</textarea>
             </div>
             <div class="buttons-wrapper col-3 col-md-2 d-flex p-0 w-100 h-100">
-              <button id="save-button" class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
+              <button class="btn save-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
                 <i class="fa-solid fa-plus"></i>
               </button>
-              <button id="clear-button" class="btn clear-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
+              <button class="btn clear-button d-flex align-items-center justify-content-center w-100 h-100" data-index="${i}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
@@ -166,8 +166,8 @@
 
   // chain event listeners
   $('#container')
-    .on('click', '#save-button', saveTask)
-    .on('keyup', 'textarea[id="daily-task"]', function (e) {
+    .on('click', '.save-button', saveTask)
+    .on('keyup', 'textarea[class="daily-task"]', function (e) {
       // on pressing enter from input, call function passing 'this' arguments
       if (e.which === 13 && !e.shiftKey) {
         e.stopPropagation();
@@ -176,7 +176,7 @@
         saveTask.call(this);
       }
     })
-    .on('click', '#clear-button', function () {
+    .on('click', '.clear-button', function () {
       let i = $(this).data('index');
       let icon = $(this).children('i');
       // animate icon
@@ -193,7 +193,7 @@
   $('main').on('click', '#ultimate-save', function () {
     let saveAllBtn = $('#ultimate-save');
     saveAllBtn.prop('disabled', true).text('Wait...');
-    $(`textarea[id='daily-task']`).each(function () {
+    $(`textarea[class='daily-task']`).each(function () {
       let i = $(this).data('index');
       let task = $(this).val();
       saveToLocal(i, task);
@@ -235,7 +235,7 @@
 
     $('.row').each(function () {
       // convert block time string to a moment object
-      let blockTime = moment($(this).find('#block-time').text(), 'hh A').format(
+      let blockTime = moment($(this).find('.block-time').text(), 'hh A').format(
         'HH'
       );
       let row = $(this).not('.ultimate-buttons-wrapper');

@@ -121,7 +121,7 @@ button {
   transition: all 0.2s cubic-bezier(0.83, 0.15, 0.58, 1.54);
 }
 
-textarea#daily-task:focus {
+textarea.daily-task:focus {
   transform: scale(1.02);
   border: 2px solid;
   position: relative;
