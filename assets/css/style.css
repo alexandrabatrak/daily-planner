@@ -1,42 +1,34 @@
 :root {
-  --white: #ffffff;
   --black: #050505;
-  --secondary: #a9c3ed;
-  --primary: #83a8f3;
   --accent: #3772ff;
-  --accent-darker: #1e3c82;
+  --primary: #83a8f3;
+  --secondary: #a9c3ed;
   --warning: #db2b39;
+  --base-font: 'Roboto Flex', sans-serif;
 }
 
 body {
-  font-family: 'Roboto Flex', sans-serif;
+  font-family: var(--base-font);
   font-size: 16px;
   line-height: 1;
+
   background: linear-gradient(
-    90deg,
-    var(--black) 7%,
-    var(--accent) 7%,
-    var(--accent) 9%,
-    white 9%
+    180deg,
+    var(--black) 1%,
+    var(--accent) 1%,
+    var(--accent) 2%,
+    white 2%
   );
+
   background-repeat: no-repeat;
 }
 
-header,
-main {
-  margin-left: 11vw;
-}
-
-main {
-  max-width: 1200px;
-}
-
+/* Header */
 .jumbotron {
   background-color: transparent;
 }
 
 .jumbotron h1 {
-  font-size: 6.5vmax;
   font-weight: bold;
   text-transform: uppercase;
   word-break: break-word;
@@ -46,6 +38,7 @@ main {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* margin-top: 3rem; */
 }
 
 .description {
@@ -64,7 +57,7 @@ main {
 .hours-input input,
 .hours-input span {
   margin-right: 1rem;
-  font-size: 1.5vmax;
+  font-size: 1.25rem;
 }
 
 .hours-input input:focus {
@@ -87,6 +80,11 @@ main {
   font-weight: bold;
 }
 
+/* Main */
+main {
+  max-width: 1200px;
+}
+
 .row {
   white-space: pre-wrap;
   height: 80px;
@@ -99,13 +97,13 @@ main {
 }
 
 .hour {
-  font-size: 1.5vmax;
   padding: 0 0.5rem 0;
 }
 
 /* it's not centered in media sm, so use the line-height as fix.*/
 .hour span {
   line-height: 0.5rem;
+  text-align: right;
 }
 
 input,
@@ -235,9 +233,9 @@ button i.saved {
   color: var(--black);
 }
 
+/* Footer */
 footer {
   height: 300px;
-  margin-left: 9%;
   color: var(--white);
   background-size: cover;
   background-repeat: no-repeat;
@@ -251,7 +249,7 @@ footer {
 
 /* jQuery confirm modal */
 .ui-dialog {
-  font-family: 'Roboto Flex', sans-serif;
+  font-family: var(--base-font);
   padding: 0;
   outline: 0;
   background: rgba(255, 255, 255, 0.35);
@@ -326,6 +324,7 @@ footer {
   background: var(--secondary);
 }
 
+/* Animation */
 @keyframes confirm {
   0%,
   100% {
@@ -336,36 +335,39 @@ footer {
   }
 }
 
-@media (max-width: 768px) {
+/* Media */
+@media (min-width: 768px) {
   body {
     background: linear-gradient(
-      180deg,
-      var(--black) 1%,
-      var(--accent) 1%,
-      var(--accent) 2%,
-      white 2%
+      90deg,
+      var(--black) 7%,
+      var(--accent) 7%,
+      var(--accent) 9%,
+      white 9%
     );
   }
   header,
-  main,
-  footer {
-    margin-left: 0;
+  main {
+    margin-left: 11vw;
   }
 
   .jumbotron h1 {
-    margin-top: 3rem;
+    font-size: 6.5vmax;
   }
 
+  .hours-input input,
+  .hours-input span,
+  .hour {
+    font-size: 1.5vmax;
+  }
+
+  footer {
+    margin-left: 9%;
+  }
+}
+
+@media (max-width: 768px) {
   #container {
     padding: 0.5rem;
-  }
-  
-  .hour {
-    font-size: 1rem;
-  }
-
-  .hours-input span,
-  .hours-input input {
-    font-size: 1.25rem;
   }
 }
