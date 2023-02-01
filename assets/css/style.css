@@ -359,4 +359,13 @@ footer {
   #container {
     padding: 0.5rem;
   }
+  
+  .hour {
+    font-size: 1rem;
+  }
+
+  .hours-input span,
+  .hours-input input {
+    font-size: 1.25rem;
+  }
 }
