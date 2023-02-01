@@ -356,7 +356,10 @@ footer {
     padding: 0.5rem;
   }
   
-  .hour,
+  .hour {
+    font-size: 1rem;
+  }
+
   .hours-input span,
   .hours-input input {
     font-size: 1.25rem;
