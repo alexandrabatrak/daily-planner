@@ -106,7 +106,7 @@
               </span>
             </div>
             <div class="col-7 col-md-8 d-flex w-100 h-100 p-0">
-              <textarea id="daily-task" class="daily-task w-100 h-100" data-index="${i}">${
+              <textarea class="daily-task w-100 h-100" data-index="${i}">${
           taskData[i] && taskData[i].date === today ? taskData[i].task : ''
         }</textarea>
             </div>
@@ -167,7 +167,7 @@
   // chain event listeners
   $('#container')
     .on('click', '.save-button', saveTask)
-    .on('keyup', 'textarea[id="daily-task"]', function (e) {
+    .on('keyup', 'textarea.daily-task', function (e) {
       // on pressing enter from input, call function passing 'this' arguments
       if (e.which === 13 && !e.shiftKey) {
         e.stopPropagation();
@@ -193,8 +193,7 @@
   $('main').on('click', '#ultimate-save', function () {
     let saveAllBtn = $('#ultimate-save');
     saveAllBtn.prop('disabled', true).text('Wait...');
-    $('textarea[id="daily-task"]').each(function () {
-      console.log(this);
+    $('textarea.daily-task').each(function () {
       let i = $(this).data('index');
       let task = $(this).val();
       saveToLocal(i, task);
