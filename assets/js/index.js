@@ -1,7 +1,7 @@
 (function ($) {
   // header date
   $('#currentDay').text(moment().format('LL'));
-
+  // current time in the footer
   let updateTime = () => {
     $('#currentTime').text(moment().format('HH:mm'));
     // update every hour
@@ -9,7 +9,6 @@
   };
   // call it out without any interval the first time
   setTimeout(updateTime, 0);
-
   // hours
   let blocks = [];
   let hours = {
@@ -37,7 +36,6 @@
   $('form').append([hoursStart, `<span>-</span>`, hoursEnd, submitHours]);
 
   // clickety click magic to update hours project
-  // TODO: Better validation: if input higher than 23, automatically convert the value to 23, if input less than 0, convert to 0 as lowest
   submitHours.on('click', (e) => {
     // prevent page refresh
     e.preventDefault();
@@ -150,12 +148,14 @@
   function saveToLocal(i, task) {
     let date = moment().format('LL');
 
+    // create new object if doesn't exist...
     if (!taskData[i]) {
       taskData[i] = {
         blockTime: blocks[i],
         task: task,
         date: date,
       };
+      // otherwise update values in the object
     } else {
       taskData[i].blockTime = blocks[i];
       taskData[i].task = task;
@@ -172,6 +172,7 @@
       if (e.which === 13 && !e.shiftKey) {
         e.stopPropagation();
         e.preventDefault();
+        // unfocus input
         $(this).blur();
         saveTask.call(this);
       }
@@ -191,8 +192,10 @@
 
   // save all
   $('main').on('click', '#ultimate-save', function () {
+    // show feedback on the button
     let saveAllBtn = $('#ultimate-save');
     saveAllBtn.prop('disabled', true).text('Wait...');
+    // save all
     $('textarea.daily-task').each(function () {
       let i = $(this).data('index');
       let task = $(this).val();
@@ -208,9 +211,11 @@
 
   // clear all
   $('#ultimate-clear').on('click', function () {
+    // create the dialog
     $('main').append(
       `<div id="confirm-delete"><p>Are you sure you want to delete all tasks?</p></div>`
     );
+    // jQuery dialog
     $('#confirm-delete').dialog({
       resizable: false,
       height: 'auto',
