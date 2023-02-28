@@ -1,6 +1,6 @@
 # Daily Planner
 
-Bootcamp week 07: Daily planner :blue_heart:
+:blue_heart:
 
 ## About
 
